@@ -1510,7 +1510,8 @@ class Vs2010Backend(backends.Backend):
             message.text = msg
         if not verify_files:
             ET.SubElement(custombuild, 'VerifyInputsAndOutputsExist').text = 'false'
-        ET.SubElement(custombuild, 'Command').text = f'''setlocal
+        ET.SubElement(custombuild, 'Command').text = f'''
+setlocal
 {command}
 if %%errorlevel%% neq 0 goto :cmEnd
 :cmEnd
@@ -1518,7 +1519,8 @@ endlocal & call :cmErrorLevel %%errorlevel%% & goto :cmDone
 :cmErrorLevel
 exit /b %%1
 :cmDone
-if %%errorlevel%% neq 0 goto :VCEnd'''
+if %%errorlevel%% neq 0 goto :VCEnd
+'''
         if not outputs:
             # Use a nonexistent file to always consider the target out-of-date.
             outputs = [self.nonexistent_file(os.path.join(self.environment.get_scratch_dir(),

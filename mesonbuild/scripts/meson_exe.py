@@ -19,6 +19,7 @@ import pickle
 import subprocess
 import typing as T
 import locale
+import platform
 
 from .. import mesonlib
 from ..backend.backends import ExecutableSerialisation
@@ -68,6 +69,13 @@ def run_exe(exe: ExecutableSerialisation, extra_env: T.Optional[T.Dict[str, str]
                          close_fds=False, stdin=stdin, stdout=pipe, stderr=pipe)
     stdout, stderr = p.communicate()
 
+    if platform.system().lower() == 'windows':
+        import msvcrt
+        error_mode = msvcrt.GetErrorMode()
+    else:
+        error_mode = 0
+
+    #print(f'{os.getpid()}: finished subprocess, rc {p.returncode}, ec: {error_mode}', file=sys.stderr)
     if stdin is not None:
         stdin.close()
 

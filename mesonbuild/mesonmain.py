@@ -239,6 +239,10 @@ def run(original_args, mainfile):
         mlog.error('Please install and use mingw-w64-x86_64-python3 and/or mingw-w64-x86_64-meson with Pacman')
         return 2
 
+    if sys.platform == 'win32':
+        import msvcrt
+        msvcrt.SetErrorMode(0x8001)
+
     # Set the meson command that will be used to run scripts and so on
     mesonlib.set_meson_command(mainfile)
 

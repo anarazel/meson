@@ -596,6 +596,8 @@ class Backend:
         if workdir:
             reasons.append('to set workdir')
 
+        reasons.append('to debug')
+
         if any('\n' in c for c in es.cmd_args):
             reasons.append('because command contains newlines')
 
